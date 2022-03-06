@@ -1,55 +1,43 @@
-<template>
-    <h1 v-text="tempDir"></h1>
+<template lang="pug">
+.app-container 
+    Inspector.app-inspector(ref="inspector")
+    Content.app-content
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
-import * as os from '@tauri-apps/api/os'
-import * as fs from '@tauri-apps/api/fs'
-import * as path from '@tauri-apps/api/path'
+import { computed, defineComponent, ref } from "vue";
+import Inspector from "./components/Inspector.vue";
+import Content from "./components/Content.vue";
+
+export enum Category {
+  All = 0,
+  YouTube = 1,
+  Vimeo = 2,
+}
 
 export default defineComponent({
-    components: {
-        HelloWorld,
-    },
-    setup() {
-        const tempDir = ref('Hello.')
-        const count = ref(0)
-        const setTempDir = async () => {
-            const dir = await path.appDir()
-            tempDir.value = dir
-        }
-
-        setTempDir()
-
-        setInterval(async () => {
-            count.value++
-            const file: fs.FsTextFileOption = {
-                contents: JSON.stringify({ number: count.value }),
-                path: 'tempData.json',
-            }
-            const option: fs.FsOptions = {
-                dir: fs.BaseDirectory.App,
-            }
-            console.log(`Try to save to ${file.path}`)
-            await fs.writeFile(file, option)
-        }, 1000)
-
-        return {
-            tempDir,
-        }
-    },
-})
+  setup() {},
+  components: { Inspector, Content },
+});
 </script>
 
-<style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+<style lang="scss" scoped>
+div.app-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  div.app-inspector {
+    width: 100%;
+    min-width: 300px;
+    max-width: 300px;
+    height: 100%;
+    background-color: #dddddd;
+  }
+
+  div.app-content {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

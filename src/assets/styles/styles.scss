@@ -1,0 +1,7 @@
+@mixin clipSvgBackground($svg-path) {
+  mask-image: url($svg-path);
+  -webkit-mask-image: url($svg-path);
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
